@@ -8,7 +8,6 @@ public class AuthService(IConfiguration cfg) : IAuthService
 {
     private readonly IConfiguration _cfg = cfg;
 
-    // Usuario/contraseña fijos
     private const string USERNAME = "admin";
     private const string PASSWORD = "1234";
 

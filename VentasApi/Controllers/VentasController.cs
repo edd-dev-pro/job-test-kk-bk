@@ -20,7 +20,6 @@ namespace VentasApi.Controllers
             _context = context;
         }
 
-        // GET /api/ventas
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Venta>>> GetVentas()
         {
@@ -28,7 +27,6 @@ namespace VentasApi.Controllers
             return Ok(ventas);
         }
 
-        // GET /api/ventas/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<Venta>> GetVentaById(int id)
         {
@@ -37,8 +35,6 @@ namespace VentasApi.Controllers
             return Ok(venta);
         }
 
-        // POST /api/ventas
-        // Requiere JWT
         [HttpPost]
         [Authorize]
         public async Task<ActionResult<Venta>> CreateVenta(VentaCreateDto dto)
@@ -51,12 +47,9 @@ namespace VentasApi.Controllers
             _context.Ventas.Add(venta);
             await _context.SaveChangesAsync();
 
-            // Devuelve 201 con header Location: /api/ventas/{id}
             return CreatedAtAction(nameof(GetVentaById), new { id = venta.Id }, venta);
         }
 
-        // DELETE /api/ventas/all
-        // Requiere JWT
         [HttpDelete("all")]
         [Authorize]
         public async Task<IActionResult> DeleteAllVentas()

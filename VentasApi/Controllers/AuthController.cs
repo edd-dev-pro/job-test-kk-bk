@@ -7,7 +7,6 @@ namespace VentasApi.Controllers;
 [Route("api/[controller]")]
 public class AuthController(IAuthService auth) : ControllerBase
 {
-    // POST api/auth/login
     [HttpPost("login")]
     public IActionResult Login([FromBody] LoginDto dto)
     {

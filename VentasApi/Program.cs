@@ -8,12 +8,10 @@ using VentasApi.Services;
 var builder = WebApplication.CreateBuilder(args);
 var cfg = builder.Configuration;
 
-// 1️⃣ Controllers y Swagger
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// ✅ Habilita CORS para permitir peticiones desde Vue
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
@@ -24,11 +22,9 @@ builder.Services.AddCors(options =>
     });
 });
 
-// 2️⃣ Entity Framework Core (SQL Server)
 builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseSqlServer(cfg.GetConnectionString("Default")));
 
-// 3️⃣ Autenticación JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opts =>
     {
@@ -48,12 +44,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
-// 4️⃣ Servicio que genera tokens y valida usuario
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 
-// 5️⃣ Middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -64,8 +58,8 @@ app.UseHttpsRedirection();
 app.UseCors("AllowFrontend");
 
 
-app.UseAuthentication();   // ← primero autenticación
-app.UseAuthorization();    // ← luego autorización
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 
