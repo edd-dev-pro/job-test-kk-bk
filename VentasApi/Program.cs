@@ -13,6 +13,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// ✅ Habilita CORS para permitir peticiones desde Vue
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173") // origen del frontend
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // 2️⃣ Entity Framework Core (SQL Server)
 builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseSqlServer(cfg.GetConnectionString("Default")));
@@ -50,6 +61,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowFrontend");
+
 
 app.UseAuthentication();   // ← primero autenticación
 app.UseAuthorization();    // ← luego autorización
